@@ -28,10 +28,29 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
+
+      - name: Inspect build output
+        run: |
+          echo "=== dist listing ==="
+          ls -la dist || true
+          echo "=== dist/index.html (first 200 lines) ==="
+          sed -n '1,200p' dist/index.html || true
+
+      - name: Validate built index.html
+        run: |
+          if [ -f dist/index.html ]; then
+            if grep -q '/src/main.tsx' dist/index.html; then
+              echo "ERROR: dist/index.html references /src/main.tsx (dev index). Aborting deployment." >&2
+              exit 1
+            fi
+          else
+            echo "ERROR: dist/index.html not found" >&2
+            exit 1
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
