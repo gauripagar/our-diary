@@ -1,1 +1,4 @@
 # our-diary
+
+
+WHY GIT
