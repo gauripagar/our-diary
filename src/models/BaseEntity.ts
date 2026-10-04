@@ -10,5 +10,5 @@ export class BaseEntity {
     this.updatedAt = i.updatedAt ?? now;
     this.owner = i.owner ?? 'both';
   }
-  toRow(): Record<string, unknown> { return { ...this }; }
+  toRow(): Record<string, unknown> { return { ...this } as Record<string, unknown>; }
 }
