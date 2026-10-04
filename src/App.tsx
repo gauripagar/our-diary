@@ -1,20 +1,25 @@
-import { Route, Routes } from 'react-router-dom';
-import AppLayout from './components/layout/AppLayout';
-import HomePage from './features/home/Page';
-import CalendarPage from './features/calendar/Page';
-import PlaceholderPage from './features/placeholder/Page';
-import { SECTIONS } from './data/sections';
+import React from "react";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/layout/Sidebar";
+import HomePage from "./features/home/HomePage";
+import CalendarPage from "./features/calendar/CalendarPage";
+// add other pages as needed
 
-export default function App() {
+function App() {
   return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="calendar" element={<CalendarPage />} />
-        {SECTIONS.filter((s) => s.path && s.path !== 'calendar').map((s) => (
-          <Route key={s.path} path={s.path} element={<PlaceholderPage section={s} />} />
-        ))}
-      </Route>
-    </Routes>
+    <Router>
+      <div className="app">
+        <Sidebar />
+        <main className="content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            {/* add other routes here */}
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
+
+export default App;
